@@ -1,0 +1,45 @@
+{
+    "name": "tenthfeet/laravel-sequence",
+    "description": "A flexible laravel package for generating sequential numbers with various patterns and reset policies.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "sequence",
+        "serial number",
+        "generator",
+        "auto-increment"
+    ],
+    "authors": [
+        {
+            "name": "Ayyamperumal J",
+            "email": "mail@tenthfeet.com",
+            "homepage": "https://tenthfeet.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/tenthfeet/laravel-sequence",
+    "require": {
+        "php": "^8.2",
+        "illuminate/database": "^10.0 || ^11.0 || ^12.0",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0",
+        "illuminate/console": "^10.0 || ^11.0 || ^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tenthfeet\\Sequence\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tenthfeet\\Sequence\\SequenceServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use Tenthfeet\Sequence\SequenceGenerator;
+use Tenthfeet\Sequence\Enums\ResetPolicy;
+
+class {{ class }} extends SequenceGenerator
+{
+    // Customize your sequence here
+    protected ?string $key = '{{ class }}';
+
+    protected ?string $pattern = '{SEQ:3}';
+
+    protected ?ResetPolicy $resetPolicy = ResetPolicy::None;
+}
