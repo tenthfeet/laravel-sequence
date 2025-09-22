@@ -17,7 +17,7 @@ A flexible Laravel package for generating sequential numbers with various patter
 Require the package via Composer:
 
 ```bash
-  composer require tenthfeet/laravel-sequences
+  composer require tenthfeet/laravel-sequence
 ```
 
 Publish the configuration file:
