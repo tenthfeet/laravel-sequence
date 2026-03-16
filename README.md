@@ -2,7 +2,7 @@
 
 A lightweight, flexible Laravel package for generating format-based sequential values with safe DB locking and reset policies.
 
-## ? Features
+## Features
 
 - Concurrent-safe sequence generation with DB row locking
 - Custom patterns: `{YYYY}`, `{MM}`, `{DD}`, `{H}`, `{M}`, `{S}`, `{SEQ}`, `{SEQ:N}`, `{FY}`
@@ -10,7 +10,7 @@ A lightweight, flexible Laravel package for generating format-based sequential v
 - Model-scoped sequences (per record)
 - Preview next value without incrementing
 
-## ?? Installation
+## Installation
 
 Install via Composer:
 
@@ -31,7 +31,7 @@ Run migrations:
 php artisan migrate
 ```
 
-## ?? Configuration
+## Configuration
 
 Published config: `config/sequences.php`
 
@@ -47,7 +47,7 @@ return [
 ];
 ```
 
-## ?? Define a sequence
+## Define a sequence
 
 Create a sequence definition:
 
@@ -78,7 +78,7 @@ final class InvoiceSequence extends SequenceDefinition
 }
 ```
 
-## ?? Generate sequences
+## Generate sequences
 
 ```php
 use Tenthfeet\Sequence\Sequence;
@@ -110,7 +110,7 @@ $definition = (new InvoiceSequence())
 $value = Sequence::using($definition)->next();
 ```
 
-## ?? Pattern tokens
+## Pattern tokens
 
 | Token | Output example | Description |
 |---|---|---|
@@ -123,12 +123,12 @@ $value = Sequence::using($definition)->next();
 | `{S}` | 09 | second |
 | `{SEQ}` | 1 | counter raw |
 | `{SEQ:N}` | 0001 | padded counter |
-| `{FY}` | 2025-2026 | financial year |
-| `{FY:YY-YY}` | 2025-2026 | financial year |
-| `{FY:YYYY-YY}` | 2025-2026 | financial year |
+| `{FY}` | 2025-26 | financial year |
+| `{FY:YY-YY}` | 25-26 | financial year |
+| `{FY:YYYY-YY}` | 2025-26 | financial year |
 | `{FY:YYYY-YYYY}` | 2025-2026 | financial year |
 
-## ?? Reset policies
+## Reset policies
 
 ```php
 use Tenthfeet\Sequence\Enums\ResetPolicy;
@@ -140,18 +140,10 @@ ResetPolicy::Daily;
 ResetPolicy::FinancialYear;
 ```
 
-## ?? Testing
-
-Run tests with Pest:
-
-```bash
-vendor/bin/pest
-```
-
-## ?? Notes
+## Notes
 
 Sequence rows are grouped by `key`, `reset_value`, and optional `model_type` / `model_id`.
 
-## ?? License
+## License
 
 MIT
