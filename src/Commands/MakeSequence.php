@@ -2,29 +2,68 @@
 
 namespace Tenthfeet\Sequence\Commands;
 
-use Illuminate\Console\GeneratorCommand;
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
-class MakeSequence extends GeneratorCommand
+class MakeSequence extends Command
 {
-    protected $name = 'make:sequence';
+    protected $signature = 'make:sequence {name : Name of the sequence}';
 
-    protected $description = 'Create a new sequence class';
+    protected $description = 'Create a new SequenceDefinition class';
 
-    protected $type = 'Sequence';
-
-    /**
-     * Get the stub file for the generator.
-     */
-    protected function getStub(): string
+    public function handle(Filesystem $files): int
     {
-        return __DIR__.'/../../stubs/sequence.stub';
+        $name = Str::studly($this->argument('name'));
+        $class = "{$name}";
+
+        $path = app_path("Sequences/{$class}.php");
+
+        if ($files->exists($path)) {
+            $this->error('Sequence definition already exists.');
+            return self::FAILURE;
+        }
+
+        $files->ensureDirectoryExists(dirname($path));
+
+        $files->put($path, $this->buildClass($class));
+
+        $this->info("Sequence definition created: {$path}");
+
+        return self::SUCCESS;
     }
 
-    /**
-     * Get the default namespace for the class.
-     */
-    protected function getDefaultNamespace($rootNamespace): string
+    protected function buildClass(string $class): string
     {
-        return $rootNamespace.'\Sequences';
+        return <<<PHP
+<?php
+
+namespace App\Sequences;
+
+use Tenthfeet\Sequence\SequenceDefinition;
+use Tenthfeet\Sequence\Enums\ResetPolicy;
+use Carbon\Month;
+
+final class {$class} extends SequenceDefinition
+{
+    public function key(): string
+    {
+        return '{$this->keyName($class)}';
+    }
+
+    public function __construct()
+    {
+        \$this->pattern('{SEQ:3}');
+    }
+}
+PHP;
+    }
+
+    protected function keyName(string $class): string
+    {
+        return Str::of($class)
+            ->replace('Sequence', '')
+            ->snake()
+            ->toString();
     }
 }

@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('sequences.table_name'), function (Blueprint $table) {
+        Schema::create(config('sequences.table'), function (Blueprint $table) {
             $table->id();
             $table->string('key');
+            $table->string('reset_value')->nullable();
             $table->string('model_type')->nullable();
             $table->string('model_id')->nullable();
-            $table->string('reset_value')->nullable();
             $table->unsignedBigInteger('last_value')->default(0);
             $table->timestamps();
+
+            $table->unique(
+                ['key', 'reset_value', 'model_type', 'model_id'],
+                'sequence_unique_scope'
+            );
         });
     }
 
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('sequences.table_name'));
+        Schema::dropIfExists(config('sequences.table'));
     }
 };

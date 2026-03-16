@@ -26,11 +26,19 @@
         "illuminate/console": "^10.0 || ^11.0 || ^12.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.13"
+        "laravel/pint": "^1.13",
+        "pestphp/pest": "^4.4",
+        "orchestra/testbench": "^10.9",
+        "pestphp/pest-plugin-laravel": "^4.1"
     },
     "autoload": {
         "psr-4": {
             "Tenthfeet\\Sequence\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tenthfeet\\Sequence\\Tests\\": "tests"
         }
     },
     "extra": {
@@ -41,5 +49,10 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }

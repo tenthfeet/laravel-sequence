@@ -10,13 +10,12 @@ class Sequence extends Model
 
     public function getTable(): string
     {
-        return config('sequences.table_name', 'sequences');
+        return config('sequences.table', 'sequences');
     }
 
     public function casts(): array
     {
         return [
-            'last_reset_at' => 'datetime',
             'last_value' => 'integer',
         ];
     }
