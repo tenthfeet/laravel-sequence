@@ -46,14 +46,14 @@ use Carbon\Month;
 
 final class {$class} extends SequenceDefinition
 {
-    public function key(): string
-    {
-        return '{$this->keyName($class)}';
-    }
-
     public function __construct()
     {
         \$this->pattern('{SEQ:3}');
+    }
+
+    public function key(): string
+    {
+        return '{$this->keyName($class)}';
     }
 }
 PHP;

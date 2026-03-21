@@ -106,9 +106,21 @@ $value = Sequence::using($definition)->next();
 $definition = (new InvoiceSequence())
     ->pattern('INV-{YYYY}-{MM}-{SEQ:5}')
     ->padWith('0')
+    ->resetPolicy(ResetPolicy::Monthly)
+    ->financialYearStartsIn(\Carbon\Month::April)
+    ->forModel($project)
     ->usingDate(now());
 $value = Sequence::using($definition)->next();
 ```
+
+#### Available fluent methods
+
+- `pattern(string $pattern)` - Set the sequence pattern
+- `padWith(string $char)` - Set the padding character for sequence numbers
+- `resetPolicy(ResetPolicy $policy)` - Set when the sequence should reset
+- `financialYearStartsIn(Month $month)` - Set the financial year start month
+- `forModel(Model $model)` - Scope the sequence to a specific model instance
+- `usingDate(Carbon $date)` - Override the date used for date-based tokens
 
 ## Pattern tokens
 

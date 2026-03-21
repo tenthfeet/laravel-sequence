@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create(config('sequences.table'), function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->string('reset_value')->nullable();
-            $table->string('model_type')->nullable();
-            $table->string('model_id')->nullable();
+            $table->string('key', 150);
+            $table->string('reset_value', 50)->nullable();
+            $table->string('model_type', 150)->nullable();
+            $table->string('model_id', 50)->nullable();
             $table->unsignedBigInteger('last_value')->default(0);
             $table->timestamps();
 
