@@ -161,10 +161,10 @@ use App\Sequences\InvoiceSequence;
 $sequence = new InvoiceSequence();
 
 // Rollback by 1 step (default)
-Sequence::rollback($sequence);
+Sequence::using($sequence)->rollback();
 
 // Rollback by multiple steps
-Sequence::rollback($sequence, 3);
+Sequence::using($sequence)->rollback(3);
 ```
 
 ## Notes

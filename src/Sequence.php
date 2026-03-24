@@ -16,15 +16,15 @@ final class Sequence
         return new self($definition);
     }
 
-    public static function rollback(SequenceDefinition $definition, int $steps = 1): void
+    public function rollback(int $steps = 1): void
     {
         if ($steps < 0) {
             throw new \InvalidArgumentException('Steps must be a non-negative integer.');
         }
 
-        DB::transaction(function () use ($definition, $steps) {
+        DB::transaction(function () use ($steps) {
             $row = SequenceModel::query()
-                ->where(self::buildAttributes($definition))
+                ->where($this->attributes())
                 ->lockForUpdate()
                 ->first();
 
@@ -86,16 +86,11 @@ final class Sequence
 
     private function attributes(): array
     {
-        return self::buildAttributes($this->definition);
-    }
-
-    private static function buildAttributes(SequenceDefinition $definition): array
-    {
-        $model = $definition->getModel();
+        $model = $this->definition->getModel();
 
         return [
-            'key' => $definition->getKey(),
-            'reset_value' => $definition->getResetPolicyValue(),
+            'key' => $this->definition->getKey(),
+            'reset_value' => $this->definition->getResetPolicyValue(),
             'model_type' => $model ? get_class($model) : null,
             'model_id' => $model?->getKey(),
         ];

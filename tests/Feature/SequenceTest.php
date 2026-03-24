@@ -25,6 +25,21 @@ it('increments sequence value', function () {
         ->and($second)->toBe('2024-25/0002');
 });
 
+it('rollbacks sequence value', function () {
+    $seq = Sequence::using(
+        new InvoiceSequence(Carbon::create(2024, 4, 1))
+    );
+
+    $first = $seq->next();
+    $second = $seq->next();
+    $seq->rollback(2);
+    $new = $seq->next();
+
+    expect($first)->toBe('2024-25/0001')
+        ->and($second)->toBe('2024-25/0002')
+        ->and($new)->toBe('2024-25/0001');
+});
+
 it('resets sequence on financial year change', function () {
     $firstFY = Sequence::using(
         new InvoiceSequence(Carbon::create(2024, 3, 31))
