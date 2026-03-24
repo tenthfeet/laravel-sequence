@@ -16,6 +16,31 @@ final class Sequence
         return new self($definition);
     }
 
+    public static function rollback(SequenceDefinition $definition, int $steps = 1): void
+    {
+        if ($steps < 0) {
+            throw new \InvalidArgumentException('Steps must be a non-negative integer.');
+        }
+
+        DB::transaction(function () use ($definition, $steps) {
+            $row = SequenceModel::query()
+                ->where(self::buildAttributes($definition))
+                ->lockForUpdate()
+                ->first();
+
+            if (!$row) {
+                return;
+            }
+
+            // Prevent unsigned underflow
+            $newValue = max(0, $row->last_value - $steps);
+
+            $row->update([
+                'last_value' => $newValue,
+            ]);
+        });
+    }
+
     public function next(): string
     {
         return DB::transaction(function () {
@@ -61,11 +86,16 @@ final class Sequence
 
     private function attributes(): array
     {
-        $model = $this->definition->getModel();
+        return self::buildAttributes($this->definition);
+    }
+
+    private static function buildAttributes(SequenceDefinition $definition): array
+    {
+        $model = $definition->getModel();
 
         return [
-            'key' => $this->definition->getKey(),
-            'reset_value' => $this->definition->getResetPolicyValue(),
+            'key' => $definition->getKey(),
+            'reset_value' => $definition->getResetPolicyValue(),
             'model_type' => $model ? get_class($model) : null,
             'model_id' => $model?->getKey(),
         ];

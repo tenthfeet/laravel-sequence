@@ -152,6 +152,21 @@ ResetPolicy::Daily;
 ResetPolicy::FinancialYear;
 ```
 
+### Rollback sequences
+
+```php
+use Tenthfeet\Sequence\Sequence;
+use App\Sequences\InvoiceSequence;
+
+$sequence = new InvoiceSequence();
+
+// Rollback by 1 step (default)
+Sequence::rollback($sequence);
+
+// Rollback by multiple steps
+Sequence::rollback($sequence, 3);
+```
+
 ## Notes
 
 Sequence rows are grouped by `key`, `reset_value`, and optional `model_type` / `model_id`.
