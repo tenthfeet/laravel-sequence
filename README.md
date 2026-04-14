@@ -10,6 +10,11 @@ A lightweight, flexible Laravel package for generating format-based sequential v
 - Model-scoped sequences (per record)
 - Preview next value without incrementing
 
+## Compatibility
+
+- **PHP**: `8.2`, `8.3`, `8.4`, and `8.5`
+- **Laravel**: `10.x`, `11.x`, `12.x`, and `13.x`
+
 ## Installation
 
 Install via Composer:
@@ -170,6 +175,10 @@ Sequence::using($sequence)->rollback(3);
 ## Notes
 
 Sequence rows are grouped by `key`, `reset_value`, and optional `model_type` / `model_id`.
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## License
 
